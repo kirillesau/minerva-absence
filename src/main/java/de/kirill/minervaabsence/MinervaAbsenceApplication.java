@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-@RequestMapping("absence")
+@RequestMapping(path = "absence/demo")
 public class MinervaAbsenceApplication {
 
-  @GetMapping("demo")
+  @GetMapping
   public String ping() {
     return "Success";
   }
