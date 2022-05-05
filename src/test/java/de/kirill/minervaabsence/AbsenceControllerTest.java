@@ -29,4 +29,13 @@ class AbsenceControllerTest {
         .andExpect(status().isUnauthorized());
   }
 
+  @WithMockUser("spring")
+  @Test
+  public void shouldReturnDefaultMessage() throws Exception {
+    this.mockMvc.perform(get("/absence"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("absence")));
+  }
+
 }
