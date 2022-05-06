@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,6 +30,9 @@ class AbsenceControllerTest {
   @Autowired
   private ObjectMapper objectMapper;
 
+  @MockBean
+  private AbsenceService absenceService;
+
   @Test
   public void getAbsenceShouldReturn401WithoutAuthenticatedUser() throws Exception {
     this.mockMvc.perform(get("/absence"))
@@ -40,6 +45,7 @@ class AbsenceControllerTest {
   public void getAbsenceShouldReturnDefaultAbsence() throws Exception {
     List<Absence> expected = new ArrayList<>();
     expected.add(getDefaultAbsence());
+    when(absenceService.getAbsence()).thenReturn(expected);
 
     String body = this.mockMvc.perform(get("/absence"))
         .andDo(print())
@@ -54,9 +60,11 @@ class AbsenceControllerTest {
 
   @WithMockUser("spring")
   @Test
-  public void getAbsenceShouldReturnDefaultAbsence() throws Exception {
+  public void getAbsenceShouldReturn2DefaultAbsence() throws Exception {
     List<Absence> expected = new ArrayList<>();
     expected.add(getDefaultAbsence());
+    expected.add(getDefaultAbsence());
+    when(absenceService.getAbsence()).thenReturn(expected);
 
     String body = this.mockMvc.perform(get("/absence"))
         .andDo(print())
