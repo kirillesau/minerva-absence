@@ -42,6 +42,14 @@ class AbsenceControllerTest {
 
   @WithMockUser("spring")
   @Test
+  public void getAbsenceShouldReturn403WithoutAdminROle() throws Exception {
+    this.mockMvc.perform(get("/absence"))
+        .andDo(print())
+        .andExpect(status().isForbidden());
+  }
+
+  @WithMockUser(value = "spring", roles = {"ADMIN"})
+  @Test
   public void getAbsenceShouldReturnDefaultAbsence() throws Exception {
     List<Absence> expected = new ArrayList<>();
     expected.add(getDefaultAbsence());
@@ -58,7 +66,7 @@ class AbsenceControllerTest {
     assertThat(actual).isEqualTo(expected);
   }
 
-  @WithMockUser("spring")
+  @WithMockUser(value = "spring", roles = {"ADMIN"})
   @Test
   public void getAbsenceShouldReturn2DefaultAbsence() throws Exception {
     List<Absence> expected = new ArrayList<>();
