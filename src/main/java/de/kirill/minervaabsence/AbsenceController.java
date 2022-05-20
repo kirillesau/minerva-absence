@@ -1,6 +1,8 @@
 package de.kirill.minervaabsence;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,10 @@ public class AbsenceController {
   }
 
   @PreAuthorize("hasRole('USER')")
-  @PutMapping
-  Absence putAbsence(@RequestBody Absence absence) {
-    return null;
+  @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(HttpStatus.CREATED)
+  Absence putAbsence(@RequestBody Absence absence, @PathVariable() long id) {
+    return absence;
   }
+
 }

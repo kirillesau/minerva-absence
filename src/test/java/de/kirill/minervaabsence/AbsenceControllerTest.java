@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -87,20 +89,36 @@ class AbsenceControllerTest {
   }
 
   @Test
-  void putAbsenceShouldReturn403WithoutAuthenticatedUser() throws Exception {
+  void putAbsenceShouldReturn401WithoutAuthenticatedUser() throws Exception {
     Absence givenAbsence = getDefaultAbsence();
-    this.mockMvc.perform(put("/absence").content(objectMapper.writeValueAsString(givenAbsence)))
+    this.mockMvc.perform(put("/absence").with(csrf()).content(objectMapper.writeValueAsString(givenAbsence)))
         .andDo(print())
-        .andExpect(status().isForbidden());
+        .andExpect(status().isUnauthorized());
   }
 
   @WithMockUser(roles = "OTHERROLE")
   @Test
-  void putAbsenceShouldReturn403WithoutUserRole() throws Exception {
+  void putAbsenceShouldReturn405WithoutUserRole() throws Exception {
     Absence givenAbsence = getDefaultAbsence();
-    this.mockMvc.perform(put("/absence").content(objectMapper.writeValueAsString(givenAbsence)))
+    this.mockMvc.perform(put("/absence").with(csrf()).content(objectMapper.writeValueAsString(givenAbsence)))
         .andDo(print())
-        .andExpect(status().isForbidden());
+        .andExpect(status().isMethodNotAllowed());
+  }
+
+  @WithMockUser(value = "spring", roles = {"USER"})
+  @Test
+  void putAbsenceShouldReturnAbsenceWithUserRole() throws Exception {
+    Absence givenAbsence = getDefaultAbsence();
+    String body = this.mockMvc.perform(put("/absence/{id}", 123).with(csrf()).content(objectMapper.writeValueAsString(givenAbsence))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isCreated())
+        .andReturn()
+        .getResponse()
+        .getContentAsString();
+
+    Absence actual = objectMapper.readValue(body, new TypeReference<>() {});
+    assertThat(actual).isEqualTo(givenAbsence);
   }
 
   private Absence getDefaultAbsence() {
