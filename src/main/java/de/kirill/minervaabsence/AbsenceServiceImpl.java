@@ -12,7 +12,7 @@ public class AbsenceServiceImpl implements AbsenceService {
   AbsenceRepository absenceRepository;
 
   @Override
-  public List<Absence> getAbsence() {
+  public List<Absence> getAllAbsence() {
     return absenceRepository.findAll();
   }
 

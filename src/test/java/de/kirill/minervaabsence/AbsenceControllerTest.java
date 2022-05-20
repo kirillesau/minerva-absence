@@ -53,7 +53,7 @@ class AbsenceControllerTest {
   public void getAbsenceShouldReturnDefaultAbsence() throws Exception {
     List<Absence> expected = new ArrayList<>();
     expected.add(getDefaultAbsence());
-    when(absenceService.getAbsence()).thenReturn(expected);
+    when(absenceService.getAllAbsence()).thenReturn(expected);
 
     String body = this.mockMvc.perform(get("/absence"))
         .andDo(print())
@@ -72,7 +72,7 @@ class AbsenceControllerTest {
     List<Absence> expected = new ArrayList<>();
     expected.add(getDefaultAbsence());
     expected.add(getDefaultAbsence());
-    when(absenceService.getAbsence()).thenReturn(expected);
+    when(absenceService.getAllAbsence()).thenReturn(expected);
 
     String body = this.mockMvc.perform(get("/absence"))
         .andDo(print())

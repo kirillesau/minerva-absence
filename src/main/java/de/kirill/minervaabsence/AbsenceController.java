@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -21,7 +18,7 @@ public class AbsenceController {
   @PreAuthorize("hasRole('ADMIN')")
   @GetMapping
   List<Absence> getAbsence() {
-    return absenceService.getAbsence();
+    return absenceService.getAllAbsence();
   }
 
 }
