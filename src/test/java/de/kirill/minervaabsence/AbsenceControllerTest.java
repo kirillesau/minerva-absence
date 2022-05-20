@@ -17,6 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -83,6 +84,23 @@ class AbsenceControllerTest {
 
     List<Absence> actual = objectMapper.readValue(body, new TypeReference<>() {});
     assertThat(actual).isEqualTo(expected);
+  }
+
+  @Test
+  void putAbsenceShouldReturn403WithoutAuthenticatedUser() throws Exception {
+    Absence givenAbsence = getDefaultAbsence();
+    this.mockMvc.perform(put("/absence").content(objectMapper.writeValueAsString(givenAbsence)))
+        .andDo(print())
+        .andExpect(status().isForbidden());
+  }
+
+  @WithMockUser(roles = "OTHERROLE")
+  @Test
+  void putAbsenceShouldReturn403WithoutUserRole() throws Exception {
+    Absence givenAbsence = getDefaultAbsence();
+    this.mockMvc.perform(put("/absence").content(objectMapper.writeValueAsString(givenAbsence)))
+        .andDo(print())
+        .andExpect(status().isForbidden());
   }
 
   private Absence getDefaultAbsence() {
