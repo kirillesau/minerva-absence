@@ -42,7 +42,7 @@ class AbsenceControllerTest {
 
   @WithMockUser("spring")
   @Test
-  public void getAbsenceShouldReturn403WithoutAdminROle() throws Exception {
+  public void getAbsenceShouldReturn403WithoutAdminRole() throws Exception {
     this.mockMvc.perform(get("/absence"))
         .andDo(print())
         .andExpect(status().isForbidden());
