@@ -24,10 +24,10 @@ public class Absence {
   private String name;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-  private LocalDateTime from;
+  private LocalDateTime fromDate;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-  private LocalDateTime to;
+  private LocalDateTime toDate;
 
   @Override public boolean equals(Object o) {
     if (this == o)
@@ -35,11 +35,11 @@ public class Absence {
     if (o == null || getClass() != o.getClass())
       return false;
     Absence absence = (Absence) o;
-    return Objects.equals(name, absence.name) && Objects.equals(from, absence.from) && Objects.equals(to, absence.to);
+    return Objects.equals(name, absence.name) && Objects.equals(fromDate, absence.fromDate) && Objects.equals(toDate, absence.toDate);
   }
 
   @Override public int hashCode() {
-    return Objects.hash(name, from, to);
+    return Objects.hash(name, fromDate, toDate);
   }
 
 }

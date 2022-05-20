@@ -106,8 +106,8 @@ class AbsenceControllerTest {
   private Absence getDefaultAbsence() {
     Absence expected = new Absence();
     expected.setName("UNIT");
-    expected.setFrom(LocalDateTime.of(2022, 1, 1, 0, 0, 0));
-    expected.setTo(LocalDateTime.of(2022, 1, 2, 0, 0, 0));
+    expected.setFromDate(LocalDateTime.of(2022, 1, 1, 0, 0, 0));
+    expected.setToDate(LocalDateTime.of(2022, 1, 2, 0, 0, 0));
     return expected;
   }
 
