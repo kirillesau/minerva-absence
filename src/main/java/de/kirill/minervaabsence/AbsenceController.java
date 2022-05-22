@@ -22,9 +22,9 @@ public class AbsenceController {
   }
 
   @PreAuthorize("hasRole('USER')")
-  @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  Absence putAbsence(@RequestBody Absence absence, @PathVariable() long id) {
+  Absence putAbsence(@RequestBody Absence absence) {
     return absence;
   }
 
