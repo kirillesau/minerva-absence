@@ -124,8 +124,28 @@ class AbsenceControllerTest {
     assertThat(actual).isEqualTo(givenAbsence);
   }
 
+  @WithMockUser("spring")
   @Test
-  void putAbsenceShouldReturnAbsenceWith() {
+  void postAbsenceShouldReturnAbsenceWithNewId() throws Exception {
+    Absence givenAbsence = getDefaultAbsence();
+    Absence expected = getDefaultAbsence();
+    expected.setId(123L);
+
+    when(absenceService.createNewAbsence(givenAbsence)).thenReturn(expected);
+
+    String body = this.mockMvc.perform(post("/absence").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(givenAbsence)))
+        .andDo(print())
+        .andExpect(status().isCreated())
+        .andReturn()
+        .getResponse()
+        .getContentAsString();
+
+    Absence actual = objectMapper.readValue(body, new TypeReference<>() {});
+
+    assertThat(actual).isEqualTo(expected);
+    assertThat(actual.getId()).isEqualTo(expected.getId());
   }
 
   private Absence getDefaultAbsence() {

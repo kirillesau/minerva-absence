@@ -6,4 +6,6 @@ public interface AbsenceService {
 
   List<Absence> getAllAbsence();
 
+  Absence createNewAbsence(Absence absence);
+
 }

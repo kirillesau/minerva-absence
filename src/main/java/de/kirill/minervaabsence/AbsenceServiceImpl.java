@@ -16,4 +16,8 @@ public class AbsenceServiceImpl implements AbsenceService {
     return absenceRepository.findAll();
   }
 
+  @Override public Absence createNewAbsence(Absence absence) {
+    return null;
+  }
+
 }
