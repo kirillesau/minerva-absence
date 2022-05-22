@@ -18,7 +18,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -111,6 +112,8 @@ class AbsenceControllerTest {
   @Test
   void postAbsenceShouldReturnAbsenceWithUserRole() throws Exception {
     Absence givenAbsence = getDefaultAbsence();
+    when(absenceService.createNewAbsence(givenAbsence)).thenReturn(givenAbsence);
+
     String body = this.mockMvc.perform(post("/absence").with(csrf())
             .content(objectMapper.writeValueAsString(givenAbsence))
             .contentType(MediaType.APPLICATION_JSON))
