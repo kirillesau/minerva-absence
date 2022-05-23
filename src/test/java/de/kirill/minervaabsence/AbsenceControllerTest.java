@@ -11,16 +11,14 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static de.kirill.minervaabsence.AbsenceFactory.getDefaultAbsence;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -152,6 +150,41 @@ class AbsenceControllerTest {
     assertThat(actual.getId()).isEqualTo(expected.getId());
   }
 
+  @Test
+  void deleteAbsenceShouldReturn401WithoutAuthenticatedUser() throws Exception {
+    this.mockMvc.perform(delete("/absence/{absendeId}", 1L).with(csrf()))
+        .andDo(print())
+        .andExpect(status().isUnauthorized());
+  }
 
+  @WithMockUser(roles = "OTHERROLE")
+  @Test
+  void deleteAbsenceShouldReturn403WithoutUserRole() throws Exception {
+    this.mockMvc.perform(delete("/absence/{absendeId}", 1L).with(csrf()))
+        .andDo(print())
+        .andExpect(status().isForbidden());
+  }
+
+  @WithMockUser(value = "spring")
+  @Test
+  void deleteAbsenceShouldDeleteAbsenceWithUserRole() throws Exception {
+    doNothing().when(absenceService)
+        .deleteAbsence(1L);
+
+    this.mockMvc.perform(delete("/absence/{absendeId}", 1L).with(csrf()))
+        .andDo(print())
+        .andExpect(status().isNoContent());
+  }
+
+  @WithMockUser(value = "spring")
+  @Test
+  void deleteAbsenceWithUnauthorisedUserIdShouldReturn403() throws Exception {
+    doThrow(WrongUserIdException.class).when(absenceService)
+        .deleteAbsence(1L);
+
+    this.mockMvc.perform(delete("/absence/{absendeId}", 1L).with(csrf()))
+        .andDo(print())
+        .andExpect(status().isForbidden());
+  }
 
 }

@@ -8,4 +8,6 @@ public interface AbsenceService {
 
   Absence createNewAbsence(Absence absence);
 
+  void deleteAbsence(Long absenceId);
+
 }

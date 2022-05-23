@@ -29,4 +29,14 @@ public class AbsenceController {
     return absenceService.createNewAbsence(absence);
   }
 
+  @PreAuthorize("hasRole('USER')")
+  @DeleteMapping(path = "/{absenceId}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @Transactional
+  void deleteAbsence(@PathVariable Long absenceId) {
+    // TODO: Auf Credentials einschränken, so dass nur Abwesenheiten der zugehörigen UserId gelöscht werden können
+    absenceService.deleteAbsence(absenceId);
+  }
+
+
 }

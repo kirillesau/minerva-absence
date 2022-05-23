@@ -25,4 +25,8 @@ public class AbsenceServiceImpl implements AbsenceService {
     return absenceRepository.save(absence);
   }
 
+  @Override public void deleteAbsence(Long absenceId) {
+
+  }
+
 }
