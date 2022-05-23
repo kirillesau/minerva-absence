@@ -53,7 +53,7 @@ class AbsenceServiceImplTest {
     when(absenceRepository.findById(1L)).thenReturn(Optional.of(alreadyDefinedAbsence));
 
     Assertions.assertThatThrownBy(() -> underTest.createNewAbsence(givenAbsence))
-        .isInstanceOf(IdAlreadyTakenException.class)
+        .isInstanceOf(AbsenceException.class)
         .hasMessageContaining("Absence with Id<1> is already defined!");
   }
 

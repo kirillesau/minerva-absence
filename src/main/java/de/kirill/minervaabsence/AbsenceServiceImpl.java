@@ -19,7 +19,7 @@ public class AbsenceServiceImpl implements AbsenceService {
   @Override public Absence createNewAbsence(Absence absence) {
 
     if (absenceRepository.findById(absence.getId()).isPresent()) {
-      throw new IdAlreadyTakenException("Absence with Id<%s> is already defined!".formatted(absence.getId()));
+      throw new AbsenceException("Absence with Id<%s> is already defined!".formatted(absence.getId()));
     }
 
     return absenceRepository.save(absence);
