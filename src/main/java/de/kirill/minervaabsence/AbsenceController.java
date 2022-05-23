@@ -2,8 +2,8 @@ package de.kirill.minervaabsence;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +24,7 @@ public class AbsenceController {
   @PreAuthorize("hasRole('USER')")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @Transactional
   Absence postAbsence(@RequestBody Absence absence) {
     return absenceService.createNewAbsence(absence);
   }
