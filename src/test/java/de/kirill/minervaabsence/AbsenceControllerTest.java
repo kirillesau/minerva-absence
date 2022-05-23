@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static de.kirill.minervaabsence.AbsenceFactory.getDefaultAbsence;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -151,12 +152,6 @@ class AbsenceControllerTest {
     assertThat(actual.getId()).isEqualTo(expected.getId());
   }
 
-  private Absence getDefaultAbsence() {
-    Absence expected = new Absence();
-    expected.setName("UNIT");
-    expected.setFromDate(LocalDateTime.of(2022, 1, 1, 0, 0, 0));
-    expected.setToDate(LocalDateTime.of(2022, 1, 2, 0, 0, 0));
-    return expected;
-  }
+
 
 }
