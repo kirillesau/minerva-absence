@@ -108,7 +108,7 @@ class AbsenceControllerTest {
         .andExpect(status().isForbidden());
   }
 
-  @WithMockUser(value = "spring", roles = {"USER"})
+  @WithMockUser(value = "spring")
   @Test
   void postAbsenceShouldReturnAbsenceWithUserRole() throws Exception {
     Absence givenAbsence = getDefaultAbsence();
