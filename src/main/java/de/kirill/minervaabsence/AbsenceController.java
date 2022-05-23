@@ -24,7 +24,7 @@ public class AbsenceController {
   @PreAuthorize("hasRole('USER')")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  Absence putAbsence(@RequestBody Absence absence) {
+  Absence postAbsence(@RequestBody Absence absence) {
     return absenceService.createNewAbsence(absence);
   }
 
