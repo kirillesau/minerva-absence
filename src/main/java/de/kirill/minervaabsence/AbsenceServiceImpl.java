@@ -1,11 +1,11 @@
 package de.kirill.minervaabsence;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Service
 public class AbsenceServiceImpl implements AbsenceService {
 
@@ -17,7 +17,7 @@ public class AbsenceServiceImpl implements AbsenceService {
   }
 
   @Override public Absence createNewAbsence(Absence absence) {
-    return null;
+    return absenceRepository.save(absence);
   }
 
 }
