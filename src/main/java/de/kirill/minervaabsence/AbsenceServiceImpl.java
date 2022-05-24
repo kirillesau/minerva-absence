@@ -18,7 +18,8 @@ public class AbsenceServiceImpl implements AbsenceService {
 
   @Override public Absence createNewAbsence(Absence absence) {
 
-    if (absenceRepository.findById(absence.getId()).isPresent()) {
+    if (absenceRepository.findById(absence.getId())
+        .isPresent()) {
       throw new AbsenceException("Absence with Id<%s> is already defined!".formatted(absence.getId()));
     }
 
@@ -26,7 +27,7 @@ public class AbsenceServiceImpl implements AbsenceService {
   }
 
   @Override public void deleteAbsence(Long absenceId) {
-
+    absenceRepository.deleteById(absenceId);
   }
 
 }
