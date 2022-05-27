@@ -102,7 +102,7 @@ class AbsenceControllerTest {
   @Test
   void postAbsenceShouldReturn403WithoutUserRole() throws Exception {
     Absence givenAbsence = getDefaultAbsence();
-    this.mockMvc.perform(post("/absence").with(csrf())
+    this.mockMvc.perform(put("/absence").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(givenAbsence)))
         .andDo(print())
@@ -113,9 +113,9 @@ class AbsenceControllerTest {
   @Test
   void postAbsenceShouldReturnAbsenceWithUserRole() throws Exception {
     Absence givenAbsence = getDefaultAbsence();
-    when(absenceService.createNewAbsence(givenAbsence)).thenReturn(givenAbsence);
+    when(absenceService.createOrUpdateAbsence(givenAbsence)).thenReturn(givenAbsence);
 
-    String body = this.mockMvc.perform(post("/absence").with(csrf())
+    String body = this.mockMvc.perform(put("/absence").with(csrf())
             .content(objectMapper.writeValueAsString(givenAbsence))
             .contentType(MediaType.APPLICATION_JSON))
         .andDo(print())
@@ -135,9 +135,9 @@ class AbsenceControllerTest {
     Absence expected = getDefaultAbsence();
     expected.setId(123L);
 
-    when(absenceService.createNewAbsence(givenAbsence)).thenReturn(expected);
+    when(absenceService.createOrUpdateAbsence(givenAbsence)).thenReturn(expected);
 
-    String body = this.mockMvc.perform(post("/absence").with(csrf())
+    String body = this.mockMvc.perform(put("/absence").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(givenAbsence)))
         .andDo(print())

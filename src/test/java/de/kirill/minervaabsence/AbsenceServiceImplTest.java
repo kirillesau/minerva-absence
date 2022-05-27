@@ -35,26 +35,11 @@ class AbsenceServiceImplTest {
 
     when(absenceRepository.save(givenAbsence)).thenReturn(expected);
 
-    Absence actual = underTest.createNewAbsence(givenAbsence);
+    Absence actual = underTest.createOrUpdateAbsence(givenAbsence);
 
     assertThat(actual).isEqualTo(expected);
     assertThat(actual.getId()).isNotNull();
     assertThat(actual.getId()).isEqualTo(expected.getId());
-  }
-
-  @Test
-  void createNewAbsenceWithAlreadyDefinedIdShouldThrowIdAlreadyTakenException() {
-    Absence givenAbsence = getDefaultAbsence();
-    givenAbsence.setId(1L);
-
-    Absence alreadyDefinedAbsence = getDefaultAbsence();
-    alreadyDefinedAbsence.setId(1L);
-
-    when(absenceRepository.findById(1L)).thenReturn(Optional.of(alreadyDefinedAbsence));
-
-    Assertions.assertThatThrownBy(() -> underTest.createNewAbsence(givenAbsence))
-        .isInstanceOf(AbsenceException.class)
-        .hasMessageContaining("Absence with Id<1> is already defined!");
   }
 
 }

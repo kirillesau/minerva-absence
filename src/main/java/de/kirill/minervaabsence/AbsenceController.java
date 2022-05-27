@@ -22,11 +22,11 @@ public class AbsenceController {
   }
 
   @PreAuthorize("hasRole('USER')")
-  @PostMapping
+  @PutMapping
   @ResponseStatus(HttpStatus.CREATED)
   @Transactional
-  Absence postAbsence(@RequestBody Absence absence) {
-    return absenceService.createNewAbsence(absence);
+  Absence putAbsence(@RequestBody Absence absence) {
+    return absenceService.createOrUpdateAbsence(absence);
   }
 
   @PreAuthorize("hasRole('USER')")

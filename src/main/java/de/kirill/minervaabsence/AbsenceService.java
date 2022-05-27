@@ -6,7 +6,7 @@ public interface AbsenceService {
 
   List<Absence> getAllAbsence();
 
-  Absence createNewAbsence(Absence absence);
+  Absence createOrUpdateAbsence(Absence absence);
 
   void deleteAbsence(Long absenceId);
 
